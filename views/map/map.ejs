@@ -1,0 +1,49 @@
+<% include ../layout/header %>
+
+
+
+<nav class="filter">
+	<a class="list" href='/'> </a>
+	<!-- <a class="column" href='/'> </a> -->
+	<a class="map active" href='/map'> </a>
+</nav>
+
+<div id="map" style="height: 500px"></div>
+
+
+<script src="../js/jquery-1.10.2.min.js"></script>
+<script src="../js/image-upload.js"></script>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArYLKcbRpVbpfXuQWLiNFvQEyj-U3wqYY"></script>
+<script type="text/javascript">
+    var locations =<%-JSON.stringify(photos)%>
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 10,
+      center: new google.maps.LatLng(51.47726, 0.0005317),
+      mapTypeControl: false,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i]['lat'], locations[i]['lng']),
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(
+            '<div class="map-img" style="background-image:url(images/' + locations[i]['filename']
+            + ');"></div>' + locations[i]['caption']);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+  </script>
+
+<% include ../layout/footer %>

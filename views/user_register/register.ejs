@@ -1,0 +1,24 @@
+<% include ../layout/header %>
+
+<div id="bgcontainer"></div>
+	<!-- <p id="registerP">Hier kan je je register!</p> -->
+
+
+	<form action="<%= req.baseUrl + "/" %>" method="post" id="bgform">
+		<% if(error){ %>
+		  	<%= error %>
+		<% } %>
+		<!-- <label for="email">Email</label> -->
+		<input id="email" type="email" name="email" value="" placeholder="Email" required>
+
+		<!-- <label for="password">Password</label> -->
+		<input id="password" type="password" name="password" value="" placeholder="Password" required>
+
+		<!-- <label for="name">Name</label> -->
+		<input id="name" type="text" name="name" value="" placeholder="name" required>
+
+		<input type="submit" value="Register">
+	</form>
+
+
+<% include ../layout/footer %>

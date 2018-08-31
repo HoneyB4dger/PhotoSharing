@@ -1,0 +1,48 @@
+<% include ../layout/header %>
+
+
+<div id="bgcontainer"></div>
+
+    <% if(!req.session.userId){ %>
+		<p> log in please </p>
+    <% }else { %>
+    	<form id="bgform" action="<%= req.baseUrl %>" method="post" enctype="multipart/form-data">
+
+    	<div class="image-uploader">
+		  <input type="file" name="upload" value="" id="project-img" required>
+		  <img src="" class="preview">
+		</div>
+      <div id="myProgress">
+        <div id="myBar"></div>
+      </div>
+		  <input class="caption-input" type="text" name="caption" placeholder="Caption" required>
+      <div id="map"></div>
+      <input id="lat-input" type="text" name="lat" placeholder="Lat" style="display: none">
+      <input id="lng-input" type="text" name="lng" placeholder="Lng" style="display: none">
+      <br><br>
+      <input id="upload-button" type="submit" value="Upload a photo">
+		</form>
+    <br><br><br><br><br>
+    <% } %>
+<script src="../js/jquery-1.10.2.min.js"></script>
+<script src="../js/image-upload.js"></script>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArYLKcbRpVbpfXuQWLiNFvQEyj-U3wqYY"></script>
+<script src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
+<script>
+  var lp = new locationPicker('map', {
+    lat: 51.47726,
+    lng: 0.0005317
+  }, {
+    zoom: 15,
+    mapTypeControl: false,
+  });
+  // Listen to map idle event, listening to idle event more accurate than listening to ondrag event
+  google.maps.event.addListener(lp.map, 'idle', function (event) {
+    var location = lp.getMarkerPosition();
+    document.getElementById('lat-input').value = location.lat;
+    document.getElementById('lng-input').value = location.lng;
+  });
+</script>
+
+<% include ../layout/footer %>
